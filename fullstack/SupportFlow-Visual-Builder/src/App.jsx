@@ -2,6 +2,9 @@ import React from 'react';
 import { FlowProvider, useFlow } from './context/FlowContext';
 import './style.css';
 
+import Canvas from './components/Canvas';
+import EditPanel from './components/EditPanel';
+
 function AppInner() {
   const { mode } = useFlow();
 
@@ -13,13 +16,10 @@ function AppInner() {
       {mode === 'preview' ? (
         <div className="preview-runner">Preview runner goes here</div>
       ) : (
-        <div className="canvas-wrapper">Canvas goes here</div>
+        <Canvas />
       )}
 
-      {/* EditPanel placeholder */}
-      <div className="edit-panel" style={{ display: 'none' }}>
-        Edit panel
-      </div>
+      <EditPanel />
     </div>
   );
 }
@@ -31,4 +31,5 @@ export default function App() {
     </FlowProvider>
   );
 }
+
 

@@ -1,11 +1,30 @@
 import React from 'react';
+import { useFlow } from '../context/FlowContext';
 
 export default function EditPanel() {
+  const { nodes, selectedNodeId, updateNodeText, selectNode } = useFlow();
+
+  if (!selectedNodeId) return null;
+
+  const selectedNode = nodes.find((n) => n.id === selectedNodeId);
+  if (!selectedNode) return null;
+
   return (
-    <div style={{ padding: 8 }}>
-      <strong>Edit Panel</strong>
-      <div style={{ opacity: 0.8, marginTop: 8 }}>Edit selected node/connection.</div>
+    <div className="edit-panel">
+      <h3>Edit Node</h3>
+
+      <textarea
+        value={selectedNode.text ?? ''}
+        onChange={(e) => updateNodeText(selectedNodeId, e.target.value)}
+      />
+
+      <div style={{ marginTop: 10 }}>
+        <button className="btn" onClick={() => selectNode(null)} type="button">
+          Close
+        </button>
+      </div>
     </div>
   );
 }
+
 
