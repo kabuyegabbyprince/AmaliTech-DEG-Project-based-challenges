@@ -1,6 +1,238 @@
-/* Whole app styling (single file) */
+/* ===== Design Tokens ===== */
+:root {
+  --bg-canvas: #0f1117;
+  --bg-panel: #1a1d27;
+  --bg-card: #1f2330;
+  --border-default: #333748;
+  --text-primary: #e6e8ee;
+  --text-secondary: #9096a8;
 
-/* This file is intentionally minimal for now.
-   Existing styling is in src/index.css; this file will be used by the
-   SupportFlow Visual Builder layout once components are wired. */
+  --color-start: #22c55e;
+  --color-question: #3b82f6;
+  --color-end: #f97316;
+  --color-selected: #a855f7;
+  --color-danger: #ef4444;
+  --color-line: #4b5065;
 
+  --radius-card: 12px;
+  --radius-panel: 10px;
+  --spacing-unit: 8px;
+  --font-main: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+}
+
+/* ===== App Layout ===== */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ===== Toolbar ===== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-default);
+  z-index: 10;
+}
+
+.toolbar h1 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn:hover { border-color: var(--color-question); }
+
+.btn-primary {
+  background: var(--color-question);
+  border-color: var(--color-question);
+  color: #fff;
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+/* ===== Canvas ===== */
+.canvas-wrapper {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background-image: radial-gradient(var(--border-default) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.canvas {
+  position: relative;
+}
+
+/* ===== Node Card ===== */
+.node-card {
+  position: absolute;
+  width: 220px;
+  min-height: 80px;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-card);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.4;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.node-card:hover { transform: translateY(-2px); }
+
+.node-card .node-type-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.node-start   { border-color: var(--color-start); }
+.node-question{ border-color: var(--color-question); }
+.node-end     { border-color: var(--color-end); }
+.node-selected{ border-color: var(--color-selected); box-shadow: 0 0 0 3px rgba(168,85,247,0.25); }
+.node-broken  { border-color: var(--color-danger); box-shadow: 0 0 0 3px rgba(239,68,68,0.25); }
+
+/* ===== Connector Layer ===== */
+.connector-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.connector-line {
+  stroke: var(--color-line);
+  stroke-width: 2;
+  fill: none;
+}
+
+.connector-label {
+  fill: var(--text-secondary);
+  font-size: 11px;
+}
+
+/* ===== Edit Panel ===== */
+.edit-panel {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 280px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-panel);
+  padding: 16px;
+  z-index: 20;
+}
+
+.edit-panel h3 {
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+}
+
+.edit-panel textarea {
+  width: 100%;
+  min-height: 100px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 10px;
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+
+/* ===== Preview Runner ===== */
+.preview-runner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.chat-bubble {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 14px;
+  padding: 16px 20px;
+  max-width: 420px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.chat-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.chat-option-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-question);
+  background: transparent;
+  color: var(--color-question);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.chat-option-btn:hover {
+  background: var(--color-question);
+  color: #fff;
+}
+
+/* ===== Validator Badge ===== */
+.validator-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: var(--color-danger);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  z-index: 30;
+}
