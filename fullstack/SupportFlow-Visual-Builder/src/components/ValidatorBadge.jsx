@@ -1,22 +1,19 @@
 import React from 'react';
+import { useFlow } from '../context/FlowContext';
+import { findDeadEnds } from '../utils/graphHelpers';
 
 export default function ValidatorBadge() {
+  const { nodes } = useFlow();
+
+  const deadEnds = findDeadEnds(nodes);
+
+  if (deadEnds.length === 0) return null;
+
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-        padding: '6px 10px',
-        borderRadius: 999,
-        border: '1px solid rgba(0,0,0,0.15)',
-        fontSize: 13,
-        background: 'rgba(255,255,255,0.6)',
-      }}
-    >
-      <span style={{ width: 8, height: 8, borderRadius: 999, background: '#22c55e' }} />
-      Valid
-    </span>
+    <div className="validator-banner">
+      ⚠ {deadEnds.length} node(s) lead nowhere — check your flow
+    </div>
   );
 }
+
 

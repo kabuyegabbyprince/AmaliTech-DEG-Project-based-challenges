@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFlow } from '../context/FlowContext';
 
-export default function NodeCard({ node }) {
+export default function NodeCard({ node, deadEnds = [] }) {
   const { selectNode, selectedNodeId } = useFlow();
 
   const nodeTypeClass =
@@ -14,10 +14,11 @@ export default function NodeCard({ node }) {
           : '';
 
   const selectedClass = node.id === selectedNodeId ? 'node-selected' : '';
+  const brokenClass = deadEnds.includes(node.id) ? 'node-broken' : '';
 
   return (
     <div
-      className={`node-card ${nodeTypeClass} ${selectedClass}`.trim()}
+      className={`node-card ${nodeTypeClass} ${selectedClass} ${brokenClass}`.trim()}
       style={{ left: `${node.position.x}px`, top: `${node.position.y}px` }}
       onClick={() => selectNode(node.id)}
     >
@@ -26,5 +27,6 @@ export default function NodeCard({ node }) {
     </div>
   );
 }
+
 
 
