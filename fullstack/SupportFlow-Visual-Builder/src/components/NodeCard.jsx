@@ -1,18 +1,30 @@
 import React from 'react';
+import { useFlow } from '../context/FlowContext';
 
-export default function NodeCard() {
+export default function NodeCard({ node }) {
+  const { selectNode, selectedNodeId } = useFlow();
+
+  const nodeTypeClass =
+    node.type === 'start'
+      ? 'node-start'
+      : node.type === 'question'
+        ? 'node-question'
+        : node.type === 'end'
+          ? 'node-end'
+          : '';
+
+  const selectedClass = node.id === selectedNodeId ? 'node-selected' : '';
+
   return (
     <div
-      style={{
-        border: '1px solid rgba(0,0,0,0.15)',
-        borderRadius: 8,
-        padding: 10,
-        background: 'rgba(255,255,255,0.6)',
-      }}
+      className={`node-card ${nodeTypeClass} ${selectedClass}`.trim()}
+      style={{ left: `${node.position.x}px`, top: `${node.position.y}px` }}
+      onClick={() => selectNode(node.id)}
     >
-      <strong>Node Card</strong>
-      <div style={{ opacity: 0.8, marginTop: 6 }}>Node details will appear here.</div>
+      <span className="node-type-label">{node.type.toUpperCase()}</span>
+      <div>{node.text}</div>
     </div>
   );
 }
+
 

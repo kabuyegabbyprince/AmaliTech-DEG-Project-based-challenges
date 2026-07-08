@@ -1,18 +1,32 @@
 import React from 'react';
+import { useFlow } from '../context/FlowContext';
+import NodeCard from './NodeCard';
+import ConnectorLayer from './ConnectorLayer';
 
 export default function Canvas() {
+  const { nodes, meta } = useFlow();
+
+  if (!meta) {
+    return <div className="canvas-wrapper">Loading...</div>;
+  }
+
   return (
-    <div
-      style={{
-        border: '1px dashed rgba(0,0,0,0.2)',
-        borderRadius: 8,
-        minHeight: 320,
-        padding: 12,
-      }}
-    >
-      <strong>Canvas</strong>
-      <div style={{ opacity: 0.8, marginTop: 8 }}>Flow will be rendered here.</div>
+    <div className="canvas-wrapper">
+      <div
+        className="canvas"
+        style={{
+          width: `${meta.canvas_size?.w}px`,
+          height: `${meta.canvas_size?.h}px`,
+        }}
+      >
+        <ConnectorLayer />
+        {nodes.map((node) => (
+          <NodeCard node={node} key={node.id} />
+        ))}
+      </div>
     </div>
   );
 }
+
+
 

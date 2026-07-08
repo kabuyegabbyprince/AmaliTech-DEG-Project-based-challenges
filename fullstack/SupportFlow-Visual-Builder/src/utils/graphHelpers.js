@@ -1,15 +1,33 @@
-// Utility helpers for graph/flow manipulation.
-// Placeholder implementations so other components can import safely later.
-
-export function safeId(prefix = 'id') {
-  return `${prefix}_${Math.random().toString(16).slice(2)}_${Date.now()}`;
+export function getNodeById(nodes, id) {
+  if (!Array.isArray(nodes)) return undefined;
+  return nodes.find((n) => n.id === id);
 }
 
-export function isArray(value) {
-  return Array.isArray(value);
+export function getEdges(nodes) {
+  if (!Array.isArray(nodes)) return [];
+
+  const edges = [];
+
+  for (const node of nodes) {
+    const options = Array.isArray(node.options) ? node.options : [];
+    for (const option of options) {
+      edges.push({
+        fromId: node.id,
+        toId: option.nextId,
+        label: option.label,
+      });
+    }
+  }
+
+  return edges;
 }
 
-export function clone(obj) {
-  return obj == null ? obj : JSON.parse(JSON.stringify(obj));
+export function findDeadEnds(nodes) {
+  if (!Array.isArray(nodes)) return [];
+
+  return nodes
+    .filter((node) => node.type === 'question' && Array.isArray(node.options) && node.options.length === 0)
+    .map((node) => node.id);
 }
+
 
