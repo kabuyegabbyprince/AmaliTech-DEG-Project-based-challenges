@@ -2,7 +2,9 @@ import React from 'react';
 import { FlowProvider, useFlow } from './context/FlowContext';
 import './style.css';
 
+import Toolbar from './components/Toolbar';
 import Canvas from './components/Canvas';
+import PreviewRunner from './components/PreviewRunner';
 import EditPanel from './components/EditPanel';
 
 function AppInner() {
@@ -10,14 +12,9 @@ function AppInner() {
 
   return (
     <div className="app">
-      {/* toolbar placeholder */}
-      <div className="toolbar">Toolbar</div>
+      <Toolbar />
 
-      {mode === 'preview' ? (
-        <div className="preview-runner">Preview runner goes here</div>
-      ) : (
-        <Canvas />
-      )}
+      {mode === 'editor' ? <Canvas /> : <PreviewRunner />}
 
       <EditPanel />
     </div>
@@ -31,5 +28,7 @@ export default function App() {
     </FlowProvider>
   );
 }
+
+
 
 

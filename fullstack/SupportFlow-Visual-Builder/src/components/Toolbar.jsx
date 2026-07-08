@@ -1,10 +1,33 @@
 import React from 'react';
+import { useFlow } from '../context/FlowContext';
 
 export default function Toolbar() {
+  const { mode, setMode } = useFlow();
+
   return (
-    <div style={{ padding: 8 }}>
-      <strong>Toolbar</strong>
+    <div className="toolbar">
+      <h1>SupportFlow Visual Builder</h1>
+      <div className="toolbar-actions">
+        {mode === 'editor' ? (
+          <button
+            className="btn btn-primary"
+            onClick={() => setMode('preview')}
+            type="button"
+          >
+            ▶ Play
+          </button>
+        ) : (
+          <button
+            className="btn"
+            onClick={() => setMode('editor')}
+            type="button"
+          >
+            ✎ Edit
+          </button>
+        )}
+      </div>
     </div>
   );
 }
+
 
