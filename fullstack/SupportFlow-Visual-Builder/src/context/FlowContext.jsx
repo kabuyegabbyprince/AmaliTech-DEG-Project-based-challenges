@@ -10,6 +10,7 @@ const initialState = {
   currentPreviewNodeId: null,
 };
 
+
 function reducer(state, action) {
   switch (action.type) {
     case 'LOAD_FLOW': {
@@ -28,6 +29,83 @@ function reducer(state, action) {
         nodes: state.nodes.map((n) => (n.id === id ? { ...n, text: newText } : n)),
       };
     }
+    case 'MOVE_NODE': {
+      const { id, x, y } = action.payload;
+      return {
+        ...state,
+        nodes: state.nodes.map((n) => (n.id === id ? { ...n, position: { ...n.position, x, y } } : n)),
+      };
+    }
+    case 'ADD_NODE': {
+      const { node } = action.payload;
+      return {
+        ...state,
+        nodes: [...state.nodes, node],
+      };
+    }
+    case 'DELETE_NODE': {
+      const { id } = action.payload;
+      return {
+        ...state,
+        selectedNodeId: state.selectedNodeId === id ? null : state.selectedNodeId,
+        nodes: state.nodes
+          .filter((n) => n.id !== id)
+          .map((n) => ({
+            ...n,
+            options: Array.isArray(n.options)
+              ? n.options.filter((opt) => opt.nextId !== id)
+              : n.options,
+          })),
+      };
+    }
+    case 'UPDATE_NODE_OPTION_LABEL': {
+      const { nodeId, optionIndex, newLabel } = action.payload;
+      return {
+        ...state,
+        nodes: state.nodes.map((n) => {
+          if (n.id !== nodeId) return n;
+          const options = Array.isArray(n.options) ? n.options : [];
+          const nextOptions = options.map((opt, idx) => (idx === optionIndex ? { ...opt, label: newLabel } : opt));
+          return { ...n, options: nextOptions };
+        }),
+      };
+    }
+    case 'UPDATE_NODE_OPTION_NEXT': {
+      const { nodeId, optionIndex, nextId } = action.payload;
+      return {
+        ...state,
+        nodes: state.nodes.map((n) => {
+          if (n.id !== nodeId) return n;
+          const options = Array.isArray(n.options) ? n.options : [];
+          const nextOptions = options.map((opt, idx) => (idx === optionIndex ? { ...opt, nextId } : opt));
+          return { ...n, options: nextOptions };
+        }),
+      };
+    }
+    case 'ADD_NODE_OPTION': {
+      const { nodeId, option } = action.payload;
+      return {
+        ...state,
+        nodes: state.nodes.map((n) => {
+          if (n.id !== nodeId) return n;
+          const options = Array.isArray(n.options) ? n.options : [];
+          return { ...n, options: [...options, option] };
+        }),
+      };
+    }
+    case 'DELETE_NODE_OPTION': {
+      const { nodeId, optionIndex } = action.payload;
+      return {
+        ...state,
+        nodes: state.nodes.map((n) => {
+          if (n.id !== nodeId) return n;
+          const options = Array.isArray(n.options) ? n.options : [];
+          const nextOptions = options.filter((_, idx) => idx !== optionIndex);
+          return { ...n, options: nextOptions };
+        }),
+      };
+    }
+
     case 'SET_MODE': {
       return {
         ...state,
@@ -100,6 +178,34 @@ export function FlowProvider({ children }) {
     dispatch({ type: 'UPDATE_NODE_TEXT', payload: { id, newText } });
   }, []);
 
+  const moveNode = useCallback((id, x, y) => {
+    dispatch({ type: 'MOVE_NODE', payload: { id, x, y } });
+  }, []);
+
+  const addNode = useCallback((node) => {
+    dispatch({ type: 'ADD_NODE', payload: { node } });
+  }, []);
+
+  const deleteNode = useCallback((id) => {
+    dispatch({ type: 'DELETE_NODE', payload: { id } });
+  }, []);
+
+  const addNodeOption = useCallback((nodeId, option) => {
+    dispatch({ type: 'ADD_NODE_OPTION', payload: { nodeId, option } });
+  }, []);
+
+  const deleteNodeOption = useCallback((nodeId, optionIndex) => {
+    dispatch({ type: 'DELETE_NODE_OPTION', payload: { nodeId, optionIndex } });
+  }, []);
+
+  const updateNodeOptionLabel = useCallback((nodeId, optionIndex, newLabel) => {
+    dispatch({ type: 'UPDATE_NODE_OPTION_LABEL', payload: { nodeId, optionIndex, newLabel } });
+  }, []);
+
+  const updateNodeOptionNext = useCallback((nodeId, optionIndex, nextId) => {
+    dispatch({ type: 'UPDATE_NODE_OPTION_NEXT', payload: { nodeId, optionIndex, nextId } });
+  }, []);
+
   const setMode = useCallback((mode) => {
     dispatch({ type: 'SET_MODE', payload: { mode } });
   }, []);
@@ -119,11 +225,20 @@ export function FlowProvider({ children }) {
   const value = {
     ...state,
     updateNodeText,
+    moveNode,
+    addNode,
+    deleteNode,
+    addNodeOption,
+    deleteNodeOption,
+    updateNodeOptionLabel,
+    updateNodeOptionNext,
     setMode,
     selectNode,
     goToNode,
     resetPreview,
   };
+
+
 
   return <FlowContext.Provider value={value}>{children}</FlowContext.Provider>;
 }

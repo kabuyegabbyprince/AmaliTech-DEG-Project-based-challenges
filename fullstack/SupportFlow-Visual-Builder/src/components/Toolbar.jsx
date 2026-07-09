@@ -2,7 +2,7 @@ import React from 'react';
 import { useFlow } from '../context/FlowContext';
 
 export default function Toolbar() {
-  const { mode, setMode } = useFlow();
+  const { mode, setMode, resetPreview } = useFlow();
 
   return (
     <div className="toolbar">
@@ -22,7 +22,7 @@ export default function Toolbar() {
             onClick={() => setMode('editor')}
             type="button"
           >
-            ✎ Edit
+            ↺ Reset
           </button>
         )}
       </div>
