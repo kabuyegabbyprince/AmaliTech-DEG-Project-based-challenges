@@ -10,9 +10,9 @@ With a drag-and-drop canvas and an instant test-drive preview, support managers 
 
 ## External Resources
 
-- **Live Demo**: [Add deployment URL here]
-- **Design System (Figma)**: [Add Figma design file URL here]
-- **Repository**: [Add repository URL here]
+- **Live Demo**: [https://kabuyegabbyprince.github.io/AmaliTech-DEG-Project-based-challenges/]
+- **Design System (PDF)**: [https://drive.google.com/file/d/181cH-CYEfVf8zv1nE6xxcPLUsmwC7Lih/view?usp=sharing]
+- **Repository**: [https://github.com/kabuyegabbyprince/AmaliTech-DEG-Project-based-challenges]
 
 ## Features
 
@@ -63,15 +63,6 @@ SupportFlow uses a simple, deliberate rendering approach:
 
 The Flow Validator scans all nodes and flags any `question` node that has **no configured answer options**. This prevents customer journeys from getting stuck with no way to proceed and catches configuration mistakes before they reach real customers.
 
-## Getting Started
-
-```bash
-git clone <repo-url>
-cd fullstack/SupportFlow-Visual-Builder
-npm install
-npm run dev
-```
-
 After starting the dev server, open the local Vite URL shown in your terminal.
 
 ## Project Structure
@@ -95,11 +86,16 @@ src/
 - No undo/redo history
 - No multi-user collaboration
 - Future improvement: analytics to understand which conversation paths real customers use most often
-
-## Design System
-
-For detailed UI specifications, color palettes, typography, and component measurements, see [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md). This document contains all specifications needed to create the Figma design file.
+- Add database and use express to implement backend if necessary
 
 ## Author
 
-Built by Kabuye Gaby Prince (Joker) — Full-stack developer, founder of Virellix Inc.
+Built by Kabuye Gaby Prince — Full-stack developer
+
+
+
+
+
+
+
+
