@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/AmaliTech-DEG-Project-based-challenges/',
+  base: '/AmaliTech-DEG-Project-based-challenges/fullstack/SupportFlow-Visual-Builder/',
 })
