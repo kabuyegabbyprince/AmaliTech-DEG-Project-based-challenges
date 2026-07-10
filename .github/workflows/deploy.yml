@@ -1,31 +1,37 @@
-name: Deploy SupportFlow to GitHub Pages
+name: Deploy SupportFlow
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
     paths:
       - 'fullstack/SupportFlow-Visual-Builder/**'
+      - '.github/workflows/deploy.yml'
+
+permissions:
+  contents: write
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: 20
+
       - name: Install dependencies
-        run: cd fullstack/SupportFlow-Visual-Builder && npm install
-      
+        working-directory: fullstack/SupportFlow-Visual-Builder
+        run: npm ci
+
       - name: Build
-        run: cd fullstack/SupportFlow-Visual-Builder && npm run build
-      
-      - name: Deploy to GitHub Pages
+        working-directory: fullstack/SupportFlow-Visual-Builder
+        run: npm run build
+
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./fullstack/SupportFlow-Visual-Builder/dist
-          cname: # Leave empty unless you have a custom domain
+          publish_dir: fullstack/SupportFlow-Visual-Builder/dist
