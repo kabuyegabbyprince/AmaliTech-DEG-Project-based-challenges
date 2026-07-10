@@ -10,8 +10,8 @@ With a drag-and-drop canvas and an instant test-drive preview, support managers 
 
 ## External Resources
 
-- **Live Demo**: [https://kabuyegabbyprince.github.io/AmaliTech-DEG-Project-based-challenges/]
-- **Design System (PDF)**: [https://drive.google.com/file/d/181cH-CYEfVf8zv1nE6xxcPLUsmwC7Lih/view?usp=sharing]
+- **Live Demo**: [https://amalitechsupportflow.netlify.app/]
+- **Design System (PDF)**: [https://drive.google.com/file/d/181cH-CYEfVf8zv1nE6xxcPLUsmwC7Lih/view]
 - **Repository**: [https://github.com/kabuyegabbyprince/AmaliTech-DEG-Project-based-challenges]
 
 ## Features
